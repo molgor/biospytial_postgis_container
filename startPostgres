@@ -12,7 +12,7 @@ sudo -u postgres /usr/lib/postgresql/9.4/bin/postgres -D /etc/postgresql/9.4/mai
 if [ $? -eq 1 ]
 then 
   echo "Error occurred, try to fix permissions";
-  ./fixPermissions
+  /root/fixPermissions ;
   echo "Reinitialise database..."
   sudo -u postgres /usr/lib/postgresql/9.4/bin/postgres -D /etc/postgresql/9.4/main/ 
 fi
