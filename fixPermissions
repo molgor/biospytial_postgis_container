@@ -1,0 +1,13 @@
+#!/bin/bash
+## Description
+## This script fix the issue with invalid permisions when mounting an external bind into the DataDirectory path (datadb/main) of Postgres
+
+## Diagnostics
+## The [Biospytial Postgis docker container](https://hub.docker.com/r/molgor/postgis_biospytial) persists the data in a mounting point external to the container. 
+For ease of use, the data can be migrated to other container by copying the whole mounting folder. 
+## Some issues can occur when using this method. The problems are regarding ownership and permissions for accessing and writing in the mounting path. 
+
+## [Workaround Solution]
+## Change the permissions of the folder by running this file (which is also executable)
+
+chown -R postgres:postgres /DataVolumes
