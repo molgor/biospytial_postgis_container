@@ -3,5 +3,18 @@
 # Custom made script for biospytial
 # Juan Escamilla 
 # 16/12/2016
+# 22/07/2019
 
 sudo -u postgres /usr/lib/postgresql/9.4/bin/postgres -D /etc/postgresql/9.4/main/ 
+
+## Catch permission exception,
+
+if [ $? -eq 1 ]
+then 
+  echo "Error occurred, try to fix permissions";
+  ./fixPermissions
+  echo "Reinitialise database..."
+  sudo -u postgres /usr/lib/postgresql/9.4/bin/postgres -D /etc/postgresql/9.4/main/ 
+fi
+
+
