@@ -1,0 +1,16 @@
+#!/bin/bash
+#This script initializes the database.
+# Juan Escamilla 
+# 23/01/2017
+
+# Initialise Database
+mkdir -p /DataVolumes/datadb/main/
+chown -R postgres:postgres /DataVolumes/datadb/main/
+
+sudo -u postgres /usr/lib/postgresql/9.4/bin/initdb -D /DataVolumes/datadb/main/
+
+#Start Database and send it to the background
+#./root/startPostgres &
+
+#Initialise Postgis template
+#sudo -u postgres ./root/initPostgis

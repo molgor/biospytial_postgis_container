@@ -1,0 +1,62 @@
+# This container has inside a fully PostGIS 2.3 installation with POSTGRE 9.1
+
+# FOllowing the instructions from:
+# https://trac.osgeo.org/postgis/wiki/UsersWikiPostGIS20Debian70src
+
+
+# @author: Juan Escamilla M'olgora
+# @date: 14/12/2016
+
+## To initialise the database use: /root/initDatabase
+## To create a postgis template use:
+## /root/initPostgis
+
+## To start the database use:
+## /root/startPostgres
+
+
+
+
+#   sudo apt-get install build-essential postgresql-9.1 postgresql-server-dev-9.1 libxml2-dev libproj-dev libjson0-dev libgeos-dev xsltproc docbook-xsl docbook-mathml
+
+# sudo apt-get install libgdal-dev
+
+#wget http://download.osgeo.org/postgis/source/postgis-2.0.7.tar.gz
+tar xfz postgis-2.0.7.tar.gz
+cd postgis-2.0.7
+
+./configure
+make
+sudo make install
+sudo ldconfig
+sudo make comments-install
+
+sudo ln -sf /usr/share/postgresql-common/pg_wrapper /usr/local/bin/shp2pgsql
+sudo ln -sf /usr/share/postgresql-common/pg_wrapper /usr/local/bin/pgsql2shp
+sudo ln -sf /usr/share/postgresql-common/pg_wrapper /usr/local/bin/raster2pgsql
+
+
+createdb template_postgis
+createlang plpgsql template_postgis
+psql -d template_postgis -c "UPDATE pg_database SET datistemplate=true WHERE datname='template_postgis'"
+psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-2.0/postgis.sql
+psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-2.0/spatial_ref_sys.sql
+psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-2.0/postgis_comments.sql
+
+
+psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-2.0/rtpostgis.sql
+psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-2.0/raster_comments.sql
+
+psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-2.0/topology.sql
+psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-2.0/topology_comments.sql
+
+
+### 
+CREATE users and database using the template database
+
+CREATE USER dev WITH PASSWORD 'dev';
+CREATE DATABASE test_development;
+GRANT ALL PRIVILEGES ON DATABASE test_development to dev;
+ALTER ROLE dev CREATEROLE CREATEDB;
+
+

@@ -1,0 +1,28 @@
+## This README file describes the steps needed for initialiasing the spatial database (postgis backend)
+# Juan Escamilla Molgora
+# 24/01/2017
+# To run use: bash INITIALISATION_NOTES
+# The scripts needed are in the /root directory
+
+# Expected environment:
+## You should have mounted the DataVolumes directory outside the contained (option --volume in Docker) so that the data remain persistent. 
+# The volume is empty. 
+
+# 1. Initialise the database use:
+/root/initDatabase
+
+# This will create the directory structure inside /DataVolumes. 
+# This is needed for postgres to run
+
+# 2. Start the Postgresql daemon with:
+/root/startPostgres &
+# This will send the database process into the background.
+echo "Waiting for Postgresql daemon to launch"
+echo "Try to initialize SQL configuration files"
+sleep 20
+# 3. Load the Postgis libraries and scripts. 
+# 3.bis Create a superuser biospytial and the database biospytial with password biospytial.
+# Note: Run it as postgres user
+sudo -u postgres /root/initPostgis
+
+

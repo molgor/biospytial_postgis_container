@@ -1,0 +1,7 @@
+#!/bin/bash
+# This script is for running Posgres as a Demon.
+# Custom made script for biospytial
+# Juan Escamilla 
+# 16/12/2016
+
+sudo -u postgres /usr/lib/postgresql/9.4/bin/postgres -D /etc/postgresql/9.4/main/ 
